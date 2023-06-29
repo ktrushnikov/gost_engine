@@ -19,7 +19,7 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "MSVC")
  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
  add_definitions(-D_CRT_DEPRECATED_NO_WARNINGS)
  add_definitions(-D_CRT_NONSTDC_NO_WARNINGS)
- add_compile_options(/MP /WX /W4 /wd4100 /wd4267 /wd4206 /wd4706 /wd4244 /wd4115)
+ add_compile_options(/MP /WX- /W4 /wd4100 /wd4267 /wd4206 /wd4706 /wd4244 /wd4115)
 endif()
 
 if (ASAN)
@@ -29,9 +29,9 @@ if (ASAN)
 endif()
 
 # DEPRECATEDIN_3_0 CMAC
-set_source_files_properties(gost_omac.c PROPERTIES COMPILE_FLAGS -Wno-error=deprecated-declarations)
+#set_source_files_properties(gost_omac.c PROPERTIES COMPILE_FLAGS -Wno-error=deprecated-declarations)
 # DEPRECATEDIN_3_0 HMAC
-set_source_files_properties(gost_keyexpimp.c PROPERTIES COMPILE_FLAGS -Wno-error=deprecated-declarations)
+#set_source_files_properties(gost_keyexpimp.c PROPERTIES COMPILE_FLAGS -Wno-error=deprecated-declarations)
 
 set(CMAKE_C_STANDARD 90)
 CHECK_FUNCTION_EXISTS(clock_gettime HAVE_CLOCK_GETTIME_C)
@@ -268,7 +268,7 @@ target_link_libraries(gost_core PRIVATE OpenSSL::Crypto)
 add_library(gost_engine SHARED ${GOST_ENGINE_SOURCE_FILES})
 set_target_properties(gost_engine PROPERTIES PREFIX "" OUTPUT_NAME "gost")
 set_target_properties(gost_engine PROPERTIES VERSION ${GOST_SOVERSION} SOVERSION ${GOST_SOVERSION})
-target_link_libraries(gost_engine PRIVATE gost_core)
+target_link_libraries(gost_engine PRIVATE gost_core ws2_32)
 
 add_library(gost_engine_static STATIC ${GOST_ENGINE_SOURCE_FILES})
 set_target_properties(gost_engine_static PROPERTIES PREFIX "lib" PUBLIC_HEADER gost-engine.h OUTPUT_NAME "gost")
