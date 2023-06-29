@@ -397,6 +397,7 @@ void gost_enc(gost_ctx * c, const byte * clear, byte * cipher, int blocks)
 void gost_dec(gost_ctx * c, const byte * cipher, byte * clear, int blocks)
 {
     int i;
+	printf("-------------------- Hello from extenal OpenSSL Engine DLL --------------------\n");
     for (i = 0; i < blocks; i++) {
         gostdecrypt(c, cipher, clear);
         clear += 8;
